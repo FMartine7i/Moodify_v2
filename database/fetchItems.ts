@@ -10,8 +10,9 @@ export const fetchAndSaveSongs = async () => {
     const spotifyApi = await getSpotifyApi()
     const response = await spotifyApi.searchTracks(playlist_id as string, { limit: 50 });
     const tracks = response.body.tracks?.items
-
+    // validar que la id de la playlist esté definida en el archivo .env
     if (!playlist_id) throw new Error('La variable PLAYLIST_ID no está definida en el archivo .env')
+    // validar que la playlist no devuelva valores nulos
     if (!tracks) {
      console.log('No se encontraron canciones en la playlist.')
       return
@@ -40,8 +41,9 @@ export const fetchAndSaveAlbums = async (req: Request, res: Response) => {
     const query = req.query.q as string
     const response = await spotifyApi.searchAlbums(query, { limit: 50 })
     const albums = response.body.albums?.items
-    
+    // validar que la consulta no devuelva valores nulos
     if (!query) return res.status(400).json({ error: 'Falta el parámetro de búsqueda (q)' })
+    // validar que la búsqueda de álbumes no devuelva valores nulos
     if (!albums) {
       console.log('No se encontraron álbumes.')
       return
@@ -52,7 +54,7 @@ export const fetchAndSaveAlbums = async (req: Request, res: Response) => {
         name: album.name,
         artist: album.artists[0].name,
         image: album.images[0].url,
-        release_date: album.release_date
+        release_date: album.release_date || ''
       })
       await newAlbum.save()
     }

@@ -46,7 +46,15 @@ const moodToKeywords = {
   }
 
 const getSongsByMood = async (req: Request, res: Response) => {
-  const spotifyApi = await getSpotifyApi();
-  const { mood } = req.params
-
+  try{
+    const spotifyApi = await getSpotifyApi();
+    const { mood } = req.query
+    const keywords = moodToKeywords[mood as keyof typeof moodToKeywords]
+    const songs = await Song.find(keywords)
+    res.status(200).json(songs)
+  } catch {
+    res.status(500).json({ error: 'Error al obtener las canciones' })
+  }
 }
+
+export { getSongs, getSongById, getSongsByMood }
