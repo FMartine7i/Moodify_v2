@@ -5,7 +5,7 @@
 
 ### Index
 
-* [Descripción](#descripcion)
+* [Descripción](#descripción)
 * [Requerimientos previos](#requerimientos-previos)
 * [Instalación](#instalación)
 * [Inicialización](#inicialización)
@@ -18,18 +18,16 @@
 
 ## Descripción
 **Moodify** es una app que permite a los usuarios encontrar playlists, canciones, artistas y álbums basados en su **estado de ánimo** actual, el **momento del día** o el **género**.
-
-## Documentación
-### Requerimientos previos
+## Requerimientos previos
 > [!IMPORTANT]
 > Tener Node.js instalado en el dispositivo
-### Instalación
+## Instalación
 > Clonar repositorio y luego ir a la terminal y buscar la carpeta ``moodify_api``. Una vez dentro la carpeta, usar el siguiente comando: ``npm install`` o ``npm i``.
-### Inicialización
+## Inicialización
 > En la consola dentro de la ruta ``\moodify`` escribir el comando: ``node app``
-### Autenticación
+## Autenticación
 > Crear un archivo ``.env`` en la carpeta principal ``/moodify`` y escribir la siguiente línea: ``TOKEN = <codigo_token>`` con el token enviado.
-### Rutas principales y Query Params
+## Rutas principales y Query Params
 * Canciones
     | Método | Endpoint | Descripción |
     |---|---|---|
@@ -51,7 +49,7 @@
     | **GET** | ``api\v1\albums\id\:id`` | Devuelve un álbum por id [1 - 50] |
     | **GET** | ``api\v1\albums?year=<year>`` | Devuelve álbumes del año solicitado |
 
-### Paquetes instalados
+## Paquetes instalados
 | Paquete | Descripción |
 |---|---|
 | ``dotenv`` | Permite cargar variables de entorno desde un archivo ``.env``. |
@@ -64,14 +62,14 @@
 | ``spotify-web-api-node`` | Cliente oficial para **Node.js** que simplifica la autenticación y las solicitudes a la **API** de **Spotify**, permitiendo acceso a datos como canciones, artistas y playlists. |
     
 
-### Manejo de errores
+## Manejo de errores
 1. Paquetes de manejos de errores: ``husky`` y ``standard``
 2. Manejo de errores:
     * ``node app``: inicializa la API
     * ``npx standard``: muestra los errores en el código
     * ``npx standard --fix``: corrige estos errores mostrados
 
-### Estructura carpetas
+## Estructura carpetas
 * ``/moodify`` → carpeta principal
 * ``/moodify/routes`` → acá se encuentran las configuraciones de las rutas de los controladores para cada entidad (canciones, playlists, albumes, artistas)
 * ``/moodify/controllers`` → esta es la carpeta de los controladores para cada entidad.
@@ -81,7 +79,7 @@
 > La pagina pública puede realizar algunas funciones, como buscar todas las canciones, puede buscar por ``id`` la canción elegida de la **lista** desplegada y puede buscar por ``mood`` eligiendo el estado de ánimo en el ``<select>`` desplegable. Todas estas búsquedas se mostrarán de forma gráfica en la página.
 
 
-> ### mi_api_moodify
+> ## mi_api_moodify
 > - ├── controllers/
 > - │   ├── albums.ts
 > - │   ├── playlists.ts
