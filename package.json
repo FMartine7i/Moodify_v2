@@ -1,12 +1,15 @@
 {
   "name": "mi_api_moodify",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "2.0.0",
+  "main": "dist/app.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app",
+    "start": "node dist/app.js",
     "lint": "npm standard",
-    "lint:fix": "standard --fix"
+    "lint:fix": "standard --fix",
+    "build": "tsc",
+    "dev": "ts-node-dev --loader ts-node/esm app.ts"
   },
   "author": "fede",
   "license": "ISC",
@@ -25,6 +28,7 @@
     "typescript": "^5.7.3"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/spotify-web-api-node": "^5.0.11",
     "nodemon": "^3.1.9",

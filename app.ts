@@ -1,13 +1,5 @@
-import mongoose from 'mongoose'
-import connectDB from './database/conex'
-import initializeCounters from './database/initDatabase'
-require('dotenv').config();
-const Server = require('./model/server')
+import dotenv from 'dotenv'
+dotenv.config();
+import Server from './models/server.js'
 const app = new Server();
-
-connectDB().then(async () => {
-    await initializeCounters()
-    console.log('Base de datos y contadores inicializados.')
-})
-
 app.listen();

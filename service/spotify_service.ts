@@ -6,7 +6,7 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 export const getSpotifyApi = async () => {
-    const data = await spotifyApi.clientCredentialsGrant()
-    spotifyApi.setAccessToken(data.body['access_token'])
-    return spotifyApi
+  const data = await spotifyApi.clientCredentialsGrant()
+  spotifyApi.setAccessToken(data.body['access_token'])
+  return spotifyApi
 }

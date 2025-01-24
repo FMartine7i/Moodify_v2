@@ -1,15 +1,21 @@
-import { getSpotifyApi } from '../service/spotifyService';
+import { getSpotifyApi } from '../service/spotify_service.js';
 import { Request, Response } from 'express'
-import Song from '../models/songs_scheme'
+import Song from '../models/songs_scheme.js'
+import moods from '../data/moods.json' assert { type: 'json' }
 
 // -------------------- GET ALL SONGS -------------------
 const getSongs = async (req: Request, res: Response) => {
   try {
-    const { genre, title, year} = req.query
+    const { album, title, year, artist, ...invalidParams } = req.query
+    const validParams = ['album', 'title', 'year']
+    const extraParams = Object.keys(invalidParams).filter(param => !validParams.includes(param))
+    // alertar que ciertos parámetros no son válidos
+    if (extraParams.length > 0) return res.status(400).json({ error: `Parámetros inválidos: ${extraParams.join(', ')}` })
+    
     const query: any = {}
-
-    if (genre) query.genre = genre
+    if (album) query.genre = album
     if (title) query.title = { $regex: title, $options: 'i' } // búsqueda insensible a mayúsculas y minúsculas
+    if (artist) query.artist = { $regex: artist, $options: 'i' }
     if (year) query.year = year
 
     const songs = await Song.find(query)
@@ -22,37 +28,41 @@ const getSongs = async (req: Request, res: Response) => {
 // -------------------- GET SONG BY ID -------------------
 const getSongById = async (req: Request, res: Response) => {
   try {
-    const songId = req.params.id
-    const song = await Song.findById(songId)
-    if (!song) {
-      return res.status(404).json({ error: 'Canción no encontrada' })
-    }
-    res.status(200).json(song)
+    const { id } = req.params
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) return res.status(400).json({ error: 'ID inválido' })
 
+    const song = await Song.findById(id)
+    if (!song) return res.status(404).json({ error: 'Canción no encontrada' })
+
+    res.status(200).json(song)
   } catch {
     res.status(500).json({ error: 'Error al obtener la canción' })
   }
 }
 
 // -------------------- GET SONGS BY MOOD -------------------
-const moodToKeywords = {
-  relaxed: ['chill', 'acoustic', 'relax', 'lofi', 'reggae', 'chillhop'],
-  happy: ['happy', 'uplifting', 'coldplay', 'energetic', 'abba', 'pop', 'summer'],
-  sad: ['melancholy', 'sad', 'emotional', 'slow', 'damien rice', 'tom odell'],
-  angry: ['metal', 'hard rock', 'judas priest', 'metallica', 'iron maiden', 'pantera'],
-  dark: ['dark', 'gloomy', 'somber', 'bauhaus', 'depeche mode'],
-  romantic: ['romantic', 'love', 'duran duran', 'the cure'],
-  emotional: ['emotional', 'heartfelt', 'expressive', 'soulful']
-  }
-
 const getSongsByMood = async (req: Request, res: Response) => {
-  try{
-    const spotifyApi = await getSpotifyApi();
+  try{   
     const { mood } = req.query
-    const keywords = moodToKeywords[mood as keyof typeof moodToKeywords]
-    const songs = await Song.find(keywords)
-    res.status(200).json(songs)
-  } catch {
+    if (!mood || !(mood as string in moods)) return res.status(400).json({ error: 'Falta el parámetro de búsqueda (mood)' })
+    
+    const songsFromDB = await Song.find({ moods: mood })
+    if ( songsFromDB.length >= 10 ) return res.status(200).json({ local: songsFromDB, spotify: [] })
+
+    const spotifyApi = await getSpotifyApi()
+    const keywords = moods[mood as keyof typeof moods]
+    const query = keywords.join(' ')
+    const response = await spotifyApi.searchTracks(query, { limit: 50 })
+    const tracks = response.body.tracks?.items.map(track => ({
+      name: track.name,
+      artist: track.artists[0].name,
+      album: track.album.name,
+      image: track.album.images[0].url,
+      preview: track.preview_url || '',
+      duration: track.duration_ms
+    }))
+    res.status(200).json({ local: songsFromDB, spotify: tracks })
+  } catch (err) {
     res.status(500).json({ error: 'Error al obtener las canciones' })
   }
 }

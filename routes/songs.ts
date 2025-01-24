@@ -1,10 +1,11 @@
-import { Router, Request, Response } from "express"
-const { getSongs, getSongById, getSongsByMood } = require('../controllers/songs')
+import { Router, Request, Response } from 'express'
+import { getSongs, getSongById, getSongsByMood } from '../controllers/songs.js'
+const songsRouter =  Router()
 
-Router().get('/', (req: Request, res: Response) => {
-    if (req.query.mood) getSongsByMood(req, res)
-    else getSongs(req, res)
+songsRouter.get('/', (req: Request, res: Response) => {
+  if (req.query.mood) getSongsByMood(req, res)
+  else getSongs(req, res)
 })
-Router().get('/:id', getSongById)
+songsRouter.get('/:id', (req: Request, res: Response) => { getSongById(req, res) })
 
-export default Router
+export default songsRouter

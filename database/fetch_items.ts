@@ -1,12 +1,12 @@
 import Song from '../models/songs_scheme'
 import Album from '../models/albums_scheme'
+import Playlist from '../models/playlists_scheme'
 import { Request, Response } from 'express'
-import { getSpotifyApi } from '../service/spotifyService'
+import { getSpotifyApi } from '../service/spotify_service'
 
-export const fetchAndSaveSongs = async () => {
+const fetchAndSaveSongs = async () => {
   try {
-    const playlist_id = process.env.PLAYLIST_ID;
-    
+    const playlist_id = process.env.PLAYLIST_ID;   
     const spotifyApi = await getSpotifyApi()
     const response = await spotifyApi.searchTracks(playlist_id as string, { limit: 50 });
     const tracks = response.body.tracks?.items
@@ -35,10 +35,10 @@ export const fetchAndSaveSongs = async () => {
   }
 }
 
-export const fetchAndSaveAlbums = async (req: Request, res: Response) => {
+const fetchAndSaveAlbums = async (req: Request, res: Response) => {
   try {
     const spotifyApi = await getSpotifyApi()
-    const query = req.query.q as string
+    const query = req.query.q as string || 'league'
     const response = await spotifyApi.searchAlbums(query, { limit: 50 })
     const albums = response.body.albums?.items
     // validar que la consulta no devuelva valores nulos
@@ -64,3 +64,33 @@ export const fetchAndSaveAlbums = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Error al obtener los álbumes.' })
   }
 }
+
+const fetchAndSavePlaylists = async (req: Request, res: Response) => {
+  try {
+    const spotifyApi = await getSpotifyApi()
+    const query = req.query.q as string || 'gaming'
+    const response = await spotifyApi.searchPlaylists(query, { limit: 50 })
+    const playlists = response.body.playlists?.items
+    // validar que la consulta no devuelva valores nulos
+    if (!query) return res.status(400).json({ error: 'Falta el parámetro de búsqueda (q)' })
+    // validar que la búsqueda de playlists no devuelva valores nulos
+  if (!playlists) {
+      console.log('No se encontraron playlists.')
+      return
+    }
+  for (const playlist of playlists) {
+    const newPlaylist = new Playlist({
+      name: playlist.name,
+      image: playlist.images[0].url,
+      description: playlist.description || ''
+    })
+    await newPlaylist.save()
+   }
+   res.status(200).json({ message: 'Playlists guardadas en la base de datos.' })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: 'Error al obtener las playlists.' })
+  } 
+}
+
+export { fetchAndSaveSongs, fetchAndSaveAlbums, fetchAndSavePlaylists }

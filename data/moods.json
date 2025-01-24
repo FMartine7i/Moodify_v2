@@ -1,0 +1,10 @@
+{
+  "relaxed": ["chill", "acoustic", "relax", "lofi", "reggae", "chillhop"],
+  "happy": ["happy", "uplifting", "coldplay", "energetic", "abba", "pop", "summer"],
+  "sad": ["melancholy", "sad", "emotional", "slow", "damien rice", "tom odell"],
+  "angry": ["metal", "hard rock", "judas priest", "metallica", "iron maiden", "pantera"],
+  "dark": ["dark", "gloomy", "somber", "bauhaus", "depeche mode"],
+  "romantic": ["romantic", "love", "duran duran", "the cure"],
+  "emotional": ["emotional", "heartfelt", "expressive", "soulful"]
+}
+  

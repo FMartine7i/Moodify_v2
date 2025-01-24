@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose'
-import Counter from './counter'
+import Counter from './counter.js'
 
 interface IAlbum extends Document {
   id?: number

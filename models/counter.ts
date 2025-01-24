@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-
 // counter schema para auto-incrementos
 const counterSchema = new mongoose.Schema({
     _id: { type: String, required: true },

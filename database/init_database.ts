@@ -1,4 +1,4 @@
-import Counter from '../models/counter'
+import Counter from '../models/counter.js'
 
 const initializeCounters = async () => {
   const counters = [

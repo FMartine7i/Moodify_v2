@@ -1,31 +1,25 @@
 import mongoose, { Schema, Document } from 'mongoose'
 import Counter from './counter.js'
 
-interface ISong extends Document {
+interface IPlaylist extends Document {
     id?: number
     name: string
-    artist: string
-    album: string
     image: string
-    preview_url: string
-    duration: number
+    description: string
 }
 
-const songSchema: Schema<ISong> = new Schema ({
+const playlistSchema: Schema<IPlaylist> = new Schema ({
     id: { type: Number, unique: true },
     name: { type: String, required: true },
-    artist: { type: String, required: true },
-    album: { type: String, required: true },
     image: { type: String },
-    preview_url: { type: String },
-    duration: { type: Number }
+    description: { type: String }
 })
 
-songSchema.pre('save', async function (next) {
+playlistSchema.pre('save', async function (next) {
     if (this.isNew) {
       try {
         const counter = await Counter.findByIdAndUpdate(
-            { _id: 'songId' },
+            { _id: 'playlistId' },
             { $inc: { seq: 1 } },
             { new: true, upsert: true }
         )
@@ -38,4 +32,4 @@ songSchema.pre('save', async function (next) {
   next()
 })
 
-export default mongoose.model('Song', songSchema)
+export default mongoose.model('Song', playlistSchema)
