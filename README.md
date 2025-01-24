@@ -21,8 +21,8 @@
 
 ## Documentación
 ### Requerimientos previos
-> [!NOTE]
-> Node.js
+> [!IMPORTANT]
+> Tener Node.js instalado en el dispositivo
 ### Instalación
 > Clonar repositorio y luego ir a la terminal y buscar la carpeta ``moodify_api``. Una vez dentro la carpeta, usar el siguiente comando: ``npm install`` o ``npm i``.
 ### Inicialización
@@ -82,25 +82,25 @@
 
 
 > ### mi_api_moodify
->  ├── controllers/
->  │   ├── albums.ts
->  │   ├── playlists.ts
->  │   ├── songs.ts
->  ├── database/
->  │   ├── conex.ts
->  │   ├── fetch_items.ts
->  │   ├── init_database.ts
->  ├── models/
->  │   ├── albums_scheme.ts
->  │   ├── counter.ts
->  │   ├── playlists_scheme.ts
->  │   ├── server.ts
->  │   ├── songs_scheme.ts
->  ├── public/
->  │   ├── index.html
->  │   ├── main.css
->  │   ├── main.ts
->  ├─ service/
->  │   ├── spotify_service.ts
->  ├── app.ts
->  ├── tsconfig.json
+> - ├── controllers/
+> - │   ├── albums.ts
+> - │   ├── playlists.ts
+> - │   ├── songs.ts
+> - ├── database/
+> - │   ├── conex.ts
+> - │   ├── fetch_items.ts
+> - │   ├── init_database.ts
+> - ├── models/
+> - │   ├── albums_scheme.ts
+> - │   ├── counter.ts
+> - │   ├── playlists_scheme.ts
+> - │   ├── server.ts
+> - │   ├── songs_scheme.ts
+> - ├── public/
+> - │   ├── index.html
+> - │   ├── main.css
+> - │   ├── main.ts
+> - ├─ service/
+> - │   ├── spotify_service.ts
+> - ├── app.ts
+> - ├── tsconfig.json
