@@ -1,20 +1,20 @@
-<img src="https://i.imgur.com/xOniTxy.png" alt="moodify" width="75%">
+<img src="https://i.imgur.com/xOniTxy.png" alt="moodify" width="65%">
 
 # moodify v2.0 🎵
 ## Spotify API call
 
 ### Index
 
-1. [Descripción](#descripcion)
-2. Documentación
-    * [Requerimientos previos](#requerimientos-previos)
-    * [Instalación](#instalación)
-    * [Inicialización](#inicialización)
-    * [Autenticación](#autenticación)
-    * [Endpoints](#endpoints)
-    * [Paquetes instalados](#paquetes-instalados)
-    * [Manejo de errores](#manejo-de-errores)
-    * [Estructura carpetas](#estructura-carpetas)
+* [Descripción](#descripcion)
+* [Requerimientos previos](#requerimientos-previos)
+* [Instalación](#instalación)
+* [Inicialización](#inicialización)
+* [Autenticación](#autenticación)
+* [Endpoints](#endpoints)
+* [Base de datos](#base-de-datos)
+* [Paquetes instalados](#paquetes-instalados)
+* [Manejo de errores](#manejo-de-errores)
+* [Estructura carpetas](#estructura-carpetas)
 
 ## Descripción
 **Moodify** es una app que permite a los usuarios encontrar playlists, canciones, artistas y álbums basados en su **estado de ánimo** actual, el **momento del día** o el **género**.
@@ -51,9 +51,6 @@
     | **GET** | ``api\v1\albums\id\:id`` | Devuelve un álbum por id [1 - 50] |
     | **GET** | ``api\v1\albums?year=<year>`` | Devuelve álbumes del año solicitado |
 
-> [!IMPORTANT]
-> Para el uso de las rutas de búsqueda por ``id``, primero se deben obtener todas las canciones, playlists, artistas y álbumes, de otra forma no podrán cargarse, dado que las canciones cuentan con un id personalizado autoincremental, debido a que las IDs de **Spotify** no son consecutivas.
-
 ### Paquetes instalados
 | Paquete | Descripción |
 |---|---|
@@ -85,25 +82,25 @@
 
 
 > ### mi_api_moodify
-> - ├── controllers/
-> - │   ├── albums.ts
-> - │   ├── playlists.ts
-> - │   ├── songs.ts
-> - ├── database/
-> - │   ├── conex.ts
-> - │   ├── fetch_items.ts
-> - │   ├── init_database.ts
-> - ├── models/
-> - │   ├── albums_scheme.ts
-> - │   ├── counter.ts
-> - │   ├── playlists_scheme.ts
-> - │   ├── server.ts
-> - │   ├── songs_scheme.ts
-> - ├── public/
-> - │   ├── index.html
-> - │   ├── main.css
-> - │   ├── main.ts
-> - ├─ service/
-> - │   ├── spotify_service.ts
-> - ├── app.ts
-> - ├── tsconfig.json
+>  ├── controllers/
+>  │   ├── albums.ts
+>  │   ├── playlists.ts
+>  │   ├── songs.ts
+>  ├── database/
+>  │   ├── conex.ts
+>  │   ├── fetch_items.ts
+>  │   ├── init_database.ts
+>  ├── models/
+>  │   ├── albums_scheme.ts
+>  │   ├── counter.ts
+>  │   ├── playlists_scheme.ts
+>  │   ├── server.ts
+>  │   ├── songs_scheme.ts
+>  ├── public/
+>  │   ├── index.html
+>  │   ├── main.css
+>  │   ├── main.ts
+>  ├─ service/
+>  │   ├── spotify_service.ts
+>  ├── app.ts
+>  ├── tsconfig.json
