@@ -20,13 +20,18 @@ const fetchAndSaveSongs = async () => {
     }
 
     for ( const track of tracks ) {
+      const duration_ms = track.track?.duration_ms as number
+      const minutes = Math.floor((duration_ms / 1000) / 60)
+      const seconds = Math.floor((duration_ms / 1000) % 60)
+      const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds
+      const duration = `${minutes}:${formattedSeconds}`
       const song = new Song({
           name: track.track?.name,
           artist: track.track?.artists[0].name,
           album: track.track?.album.name,
-          image: track.track?.album.images[0].url,
-          preview: track.track?.preview_url || '',
-          duration: track.track?.duration_ms,
+          image: track.track?.album.images[0].url || '',
+          preview_url: track.track?.preview_url || '',
+          duration: duration,
           year: track.track?.album.release_date.slice(0, 4) || 0
       })
       await song.save()

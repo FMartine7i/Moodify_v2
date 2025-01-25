@@ -29,11 +29,11 @@ const getSongs = async (req: Request, res: Response) => {
 const getSongById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    if (!id.match(/^[0-9a-fA-F]{24}$/)) return res.status(400).json({ error: 'ID inválido' })
+    // Validar que el ID sea un número válido
+    if (!/^\d+$/.test(id)) return res.status(400).json({ error: 'ID inválido' });
 
-    const song = await Song.findById(id)
+    const song = await Song.findOne({ id: Number(id) })
     if (!song) return res.status(404).json({ error: 'Canción no encontrada' })
-
     res.status(200).json(song)
   } catch {
     res.status(500).json({ error: 'Error al obtener la canción' })
