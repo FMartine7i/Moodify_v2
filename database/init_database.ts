@@ -4,7 +4,8 @@ const initializeCounters = async () => {
   const counters = [
     { _id: 'songId', seq: 0 },
     { _id: 'playlistId', seq: 0 },
-    { _id: 'albumId', seq: 0 }
+    { _id: 'albumId', seq: 0 },
+    { _id: 'userId', seq: 0 }
   ]
 
   try {
