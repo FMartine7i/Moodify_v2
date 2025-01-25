@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="styles/main.scss">
     <link rel="icon" type="image/png" href="imgs/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="imgs/favicon-16x16.png" sizes="16x16" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -16,6 +16,11 @@
         <img src="https://i.imgur.com/xOniTxy.png" class="logo__img"> 
         <input type="search" class="search__bar" placeholder="Search for a song">
     </nav>
+    <div class="gradients__container">
+        <div class="g1"></div>
+        <div class="g2"></div>
+        <div class="g3"></div>
+    </div>
     <main class="main__container">
         <div class="side__bar">
             <div class="sidebar__container">
@@ -49,17 +54,19 @@
             <div class="container">
                 <div class="card__1 card">
                     <img src="./imgs/note.png" alt="all songs">
-                    <div>
-                        <p>display all songs</p>
-                        <button class="search__btn display_all">search</button>
-                    </div>
+                    <p>display all songs</p>
+                    <button class="search__btn display_all">search</button>
                 </div>
                 <div class="card__2 card">
                     <img src="./imgs/Synthwave.jpg" alt="songs by id">
                     <div>
                         <p>find song by ID</p>
                         <input type="text" class="id__input" id="idSongInput" placeholder="[1 - 50]">
-                        <button class="search__btn id-song__btn">search</button>
+                    </div>
+                    <button class="search__btn id-song__btn">search</button>
+                </div>
+                <div class="details__card">
+                    <div class="song__details hidden">
                     </div>
                 </div>
                 <div class="card__3 card">
@@ -75,8 +82,8 @@
                             <option value="romantic">romantic</option>
                             <option value="emotional">emotional</option>
                         </select>
-                        <button class="search__btn search_by_mood">search</button>
                     </div>
+                    <button class="search__btn search_by_mood">search</button>
                 </div>
             </div>
         </div>

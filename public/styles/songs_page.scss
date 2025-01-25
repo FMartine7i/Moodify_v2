@@ -1,0 +1,67 @@
+/* ========================= SONGS PAGE ========================= */
+.songs__body {
+    padding: 20px;
+}
+
+.songs__body h1 {
+    margin-bottom: 20px;
+}
+
+.songs__list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.list {
+    padding: 20px;
+}
+
+.song__container {
+    background: rgb(27, 27, 31);
+    border-radius: 10px;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 2px 2px 5px rgba(4, 4, 4, 0.829);
+    transition: transform 0.3s ease-in-out;
+}
+
+.song__container:hover {
+    transform: scale(1.05);
+}
+
+.song__container img {
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.song__info {
+    padding: 15px;
+    color: #c7b6d5;
+}
+
+.preview__btn {
+    display: inline-block;
+    margin-top: 15px;
+    background: #8418d2;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 2px 2px 5px rgba(4, 4, 4, 0.829);
+}
+
+.preview__btn:hover {
+    background: #2e8dec;
+}
+
+.song-info-container {
+    overflow: hidden;
+    height: 140px;
+}
+
+.song-info-container p, .song-info-container h2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
