@@ -9,6 +9,7 @@ interface ISong extends Document {
     image: string
     preview_url: string
     duration: number
+    year?: number
 }
 
 const songSchema: Schema<ISong> = new Schema ({
@@ -18,7 +19,8 @@ const songSchema: Schema<ISong> = new Schema ({
     album: { type: String, required: true },
     image: { type: String },
     preview_url: { type: String },
-    duration: { type: Number }
+    duration: { type: Number },
+    year: { type: Number }
 })
 
 songSchema.pre('save', async function (next) {

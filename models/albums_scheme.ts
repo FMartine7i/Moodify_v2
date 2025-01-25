@@ -21,9 +21,9 @@ albumSchema.pre('save', async function (next) {
   if (this.isNew) {
     try {
         const counter = await Counter.findByIdAndUpdate(
-            { _id: 'albumId' },
-            { $inc: { seq: 1 } },
-            { new: true, upsert: true }
+          { _id: 'albumId' },
+          { $inc: { seq: 1 } },
+          { new: true, upsert: true }
         )
         this.id = counter?.seq || 1
     } catch (err) {

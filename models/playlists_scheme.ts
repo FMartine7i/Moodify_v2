@@ -19,9 +19,9 @@ playlistSchema.pre('save', async function (next) {
     if (this.isNew) {
       try {
         const counter = await Counter.findByIdAndUpdate(
-            { _id: 'playlistId' },
-            { $inc: { seq: 1 } },
-            { new: true, upsert: true }
+          { _id: 'playlistId' },
+          { $inc: { seq: 1 } },
+          { new: true, upsert: true }
         )
         this.id = counter?.seq || 1
     } catch (err) {
@@ -32,4 +32,4 @@ playlistSchema.pre('save', async function (next) {
   next()
 })
 
-export default mongoose.model('Song', playlistSchema)
+export default mongoose.model('Playlist', playlistSchema)
