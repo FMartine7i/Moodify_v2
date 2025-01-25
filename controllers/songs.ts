@@ -13,8 +13,8 @@ const getSongs = async (req: Request, res: Response) => {
     if (extraParams.length > 0) return res.status(400).json({ error: `Parámetros inválidos: ${extraParams.join(', ')}` })
     
     const query: any = {}
-    if (album) query.genre = album
-    if (title) query.title = { $regex: title, $options: 'i' } // búsqueda insensible a mayúsculas y minúsculas
+    if (album) query.album = { $regex: album, $options: 'i' } // búsqueda insensible a mayúsculas y minúsculas
+    if (title) query.title = { $regex: title, $options: 'i' } 
     if (artist) query.artist = { $regex: artist, $options: 'i' }
     if (year) query.year = year
 
