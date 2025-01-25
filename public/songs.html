@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="imgs/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="imgs/favicon-16x16.png" sizes="16x16" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script type="module" src="./src/main.ts"></script>
+  <title>moodify songs</title>
 </head>
-<body>
-    <div class="song__container">
-        <img width="150px" src="${song.image || './imgs/default_image.jpg'}" alt="Album Image">
-        <div class="song__info">
-          <div class="song-info-container">
-            <h2>${song.name}</h2>
-            <p>Artist: ${song.artists.join(', ')}</p>
-            <p>Album: ${song.album}</p>
-            <p>ID: ${song.customId}</p>
-          </div>
-          ${song.preview_url ? `<a href="${song.preview_url}" class="preview__btn" target="_blank">Preview</a>` : '<p>No preview available</p>'}
-        </div>
-      </div>
+<body style="background: url(./imgs/bg_mood.png); background-size: 100%;">
+  <!--    Scrollbar   -->
+  <div id="progressBar"></div>
+  <div id="scrollPath"></div>
+  <!-- nav container -->
+  <nav class="nav__container">
+    <div class="void__container"></div>
+    <img src="https://i.imgur.com/xOniTxy.png" class="logo__img"> 
+    <input type="search" class="search__bar" placeholder="Search for a song">
+  </nav>
+  <div class="main__container">
+    <div class="song__container"></div>
+  </div>
 </body>
 </html>

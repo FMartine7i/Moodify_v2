@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/main.scss">
     <link rel="icon" type="image/png" href="imgs/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="imgs/favicon-16x16.png" sizes="16x16" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>moodify API</title>
 </head>
 <body>
+    <!--    Scrollbar   -->
+    <div id="progressBar"></div>
+    <div id="scrollPath"></div>
+    <!-- nav container -->
     <nav class="nav__container">
         <div class="void__container"></div>
         <img src="https://i.imgur.com/xOniTxy.png" class="logo__img"> 
@@ -24,7 +27,7 @@
     <main class="main__container">
         <div class="side__bar">
             <div class="sidebar__container">
-                <h3>moodify</h3>
+                <img src="./imgs/moodify_logo.png" width="60%">
                 <ul>
                     <li id="explore">
                         <i class='bx bxl-netlify'></i>
@@ -65,8 +68,8 @@
                     </div>
                     <button class="search__btn id-song__btn">search</button>
                 </div>
-                <div class="details__card">
-                    <div class="song__details hidden">
+                <div class="details__card hidden">
+                    <div class="song__details">
                     </div>
                 </div>
                 <div class="card__3 card">
@@ -163,6 +166,6 @@
             </div>
         </div>
     </main>
-    <script src="main.js"></script>
+    <script type="module" src="./src/main.ts"></script>
 </body>
 </html>
