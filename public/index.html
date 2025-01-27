@@ -1,171 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="imgs/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="imgs/favicon-16x16.png" sizes="16x16" />
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>moodify API</title>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="imgs/favicon-96x96.png" sizes="96x96" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script type="module" src="./src/main.ts"></script>
+  <title>moodify API</title>
+  </head>
 <body>
-    <!--    Scrollbar   -->
-    <div id="progressBar"></div>
-    <div id="scrollPath"></div>
-    <!-- nav container -->
-    <nav class="nav__container">
-        <div class="void__container"></div>
-        <img src="https://i.imgur.com/xOniTxy.png" class="logo__img"> 
-        <input type="search" class="search__bar" placeholder="Search for a song">
-    </nav>
-    <div class="gradients__container">
-        <div class="g1"></div>
-        <div class="g2"></div>
-        <div class="g3"></div>
+  <!--    Scrollbar   -->
+  <div id="progressBar"></div>
+  <div id="scrollPath"></div>
+  <!-- nav container -->
+  <nav class="nav__container">
+    <div class="void__container"></div>
+    <img src="https://i.imgur.com/xOniTxy.png" class="logo__img"> 
+    <input type="search" class="search__bar" placeholder="Search for a song">
+  </nav>
+  <div class="side__bar">
+    <div class="sidebar__container">
+      <img src="./imgs/moodify_logo.png" width="60%">
+      <ul>
+        <li id="explore">
+            <i class='bx bxl-netlify'></i>
+            <p>explore</p>
+        </li>
+        <li id='songs'>
+            <i class='bx bx-music'></i>
+            <p>songs</p>
+        </li>
+        <li id='albums'>
+            <i class='bx bx-album' ></i>
+            <p>albums</p>
+        </li>
+        <li id='playlists'>
+            <i class='bx bxs-playlist'></i>
+            <p>playlists</p>
+        </li>
+        <li id="history">
+            <i class='bx bx-history'></i>
+            <p>history</p>
+        </li>
+      </ul>
     </div>
-    <main class="main__container">
-        <div class="side__bar">
-            <div class="sidebar__container">
-                <img src="./imgs/moodify_logo.png" width="60%">
-                <ul>
-                    <li id="explore">
-                        <i class='bx bxl-netlify'></i>
-                        <p>explore</p>
-                    </li>
-                    <li id='songs'>
-                        <i class='bx bx-music'></i>
-                        <p>songs</p>
-                    </li>
-                    <li id='albums'>
-                        <i class='bx bx-album' ></i>
-                        <p>albums</p>
-                    </li>
-                    <li id='playlists'>
-                        <i class='bx bxs-playlist'></i>
-                        <p>playlists</p>
-                    </li>
-                    <li id="history">
-                        <i class='bx bx-history'></i>
-                        <p>history</p>
-                    </li>
-                </ul>
+  </div>
+  <div class="gradient__bg">
+    <svg xmlns="https://www.w3.org/2000/svg">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+    </svg>
+    <div class="gradients__container">
+      <div class="g1"></div>
+      <div class="g2"></div>
+      <div class="g3"></div>
+      <div class="g4"></div>
+      <div class="interactive"></div>
+    </div>
+  </div>
+  <div class="main__container">
+    <div class="songs__container card__container">
+        <h1>Songs</h1>
+        <div class="container">
+            <div class="card__1 card">
+                <img src="./imgs/note.png" alt="all songs">
+                <p>display all songs</p>
+                <button class="search__btn display_all">search</button>
             </div>
-        </div>
-        <div class="songs__container card__container">
-            <h1>Songs</h1>
-            <div class="container">
-                <div class="card__1 card">
-                    <img src="./imgs/note.png" alt="all songs">
-                    <p>display all songs</p>
-                    <button class="search__btn display_all">search</button>
+            <div class="card__2 card">
+                <img src="./imgs/Synthwave.jpg" alt="songs by id">
+                <div>
+                    <p>find song by ID</p>
+                    <input type="text" class="id__input" id="idSongInput" placeholder="[1 - 50]">
                 </div>
-                <div class="card__2 card">
-                    <img src="./imgs/Synthwave.jpg" alt="songs by id">
-                    <div>
-                        <p>find song by ID</p>
-                        <input type="text" class="id__input" id="idSongInput" placeholder="[1 - 50]">
-                    </div>
-                    <button class="search__btn id-song__btn">search</button>
-                </div>
-                <div class="details__card hidden">
-                    <div class="song__details">
-                    </div>
-                </div>
-                <div class="card__3 card">
-                    <img src="./imgs/moody_songs.jpeg" alt="songs based on mood">
-                    <div>
-                        <p>find by current mood</p>
-                        <select name="mood" id="selectMood">
-                            <option value="happy">happy</option>
-                            <option value="sad">sad</option>
-                            <option value="relaxed">relaxed</option>
-                            <option value="angry">angry</option>
-                            <option value="dark">dark</option>
-                            <option value="romantic">romantic</option>
-                            <option value="emotional">emotional</option>
-                        </select>
-                    </div>
-                    <button class="search__btn search_by_mood">search</button>
+                <button class="search__btn id-song__btn">search</button>
+            </div>
+            <div class="details__card hidden">
+                <div class="song__details">
                 </div>
             </div>
-        </div>
-        <div class="songs-list hide list">
-            <button class="go-back__btn">
-                <i class='bx bx-left-arrow' ></i>
-                <p>go back</p>
-            </button>
-            <div class="songs__list"></div>
-        </div>
-        <div class="song-id__container hide">
-            <button class="go-back__btn">
-                <i class='bx bx-left-arrow' ></i>
-                <p>go back</p>
-            </button>
-            <div class="song__details"></div>
-        </div>
-        <div class="albums__container card__container hide">
-            <h1>Albums</h1>
-            <div class="container">
-                <div class="card__1 card">
-                    <img src="./imgs/albums.png" alt="all songs">
-                    <div>
-                        <p>display all albums</p>
-                        <button class="search__btn">search</button>
-                    </div>                    
+            <div class="card__3 card">
+                <img src="./imgs/moody_songs.jpeg" alt="songs based on mood">
+                <div>
+                    <p>find by current mood</p>
+                    <select name="mood" id="selectMood">
+                        <option value="happy">happy</option>
+                        <option value="sad">sad</option>
+                        <option value="relaxed">relaxed</option>
+                        <option value="angry">angry</option>
+                        <option value="dark">dark</option>
+                        <option value="romantic">romantic</option>
+                        <option value="emotional">emotional</option>
+                    </select>
                 </div>
-                <div class="card__2 card">
-                    <img src="./imgs/arctic.jpg" alt="songs by id">
-                    <div>
-                        <p>find album by ID</p>
-                        <input type="text" class="id__input" placeholder="[1 - 50]">
-                        <button class="search__btn">search</button>
-                    </div>                    
-                </div>
-                <div class="card__3 card">
-                    <img src="./imgs/albums_year.png" alt="songs based on mood">
-                    <div>
-                        <p>find albums by year</p>
-                        <input type="text" id="year" name="year" placeholder="YYYY">
-                        <button class="search__btn">search</button>
-                    </div>
+                <button class="search__btn search_by_mood">search</button>
+            </div>
+        </div>
+    </div>
+    <div class="songs-list hide list">
+        <button class="go-back__btn">
+            <i class='bx bx-left-arrow' ></i>
+            <p>go back</p>
+        </button>
+        <div class="songs__list"></div>
+    </div>
+    <div class="song-id__container hide">
+        <button class="go-back__btn">
+            <i class='bx bx-left-arrow' ></i>
+            <p>go back</p>
+        </button>
+        <div class="song__details"></div>
+    </div>
+    <div class="albums__container card__container hide">
+        <h1>Albums</h1>
+        <div class="container">
+            <div class="card__1 card">
+                <img src="./imgs/albums.png" alt="all songs">
+                <div>
+                    <p>display all albums</p>
+                    <button class="search__btn">search</button>
+                </div>                    
+            </div>
+            <div class="card__2 card">
+                <img src="./imgs/arctic.jpg" alt="songs by id">
+                <div>
+                    <p>find album by ID</p>
+                    <input type="text" class="id__input" placeholder="[1 - 50]">
+                    <button class="search__btn">search</button>
+                </div>                    
+            </div>
+            <div class="card__3 card">
+                <img src="./imgs/albums_year.png" alt="songs based on mood">
+                <div>
+                    <p>find albums by year</p>
+                    <input type="text" id="year" name="year" placeholder="YYYY">
+                    <button class="search__btn">search</button>
                 </div>
             </div>
         </div>
-        <div class="playlists__container card__container hide">
-            <h1>Playlists</h1>
-            <div class="container">                    
-                <div class="card__1 card">
-                    <img src="./imgs/allplaylists.png" alt="all songs">
-                    <div>
-                        <p>display all playlists</p>
-                        <button class="search__btn">search</button>
-                    </div>
+    </div>
+    <div class="playlists__container card__container hide">
+        <h1>Playlists</h1>
+        <div class="container">                    
+            <div class="card__1 card">
+                <img src="./imgs/allplaylists.png" alt="all songs">
+                <div>
+                    <p>display all playlists</p>
+                    <button class="search__btn">search</button>
                 </div>
-                <div class="card__2 card">
-                    <img src="./imgs/playlists.png" alt="songs by id">
-                    <div>
-                        <p>find playlist by ID</p>
-                        <input type="text" class="id__input" placeholder="[1 - 50]">
-                        <button class="search__btn">search</button>
-                    </div>                        
-                </div>
-                <div class="card__3 card">
-                    <img src="./imgs/latenight.jpg" alt="songs based on mood">
-                    <div>
-                        <p>playlists for a time of day</p>
-                        <select name="time" id="selectTime">
-                            <option value="morning">morning</option>
-                            <option value="afternoon">afternoon</option>
-                            <option value="evening">evening</option>
-                            <option value="night">late night</option>
-                        </select>
-                        <button class="search__btn">search</button>
-                    </div>
+            </div>
+            <div class="card__2 card">
+                <img src="./imgs/playlists.png" alt="songs by id">
+                <div>
+                    <p>find playlist by ID</p>
+                    <input type="text" class="id__input" placeholder="[1 - 50]">
+                    <button class="search__btn">search</button>
+                </div>                        
+            </div>
+            <div class="card__3 card">
+                <img src="./imgs/latenight.jpg" alt="songs based on mood">
+                <div>
+                    <p>playlists for a time of day</p>
+                    <select name="time" id="selectTime">
+                        <option value="morning">morning</option>
+                        <option value="afternoon">afternoon</option>
+                        <option value="evening">evening</option>
+                        <option value="night">late night</option>
+                    </select>
+                    <button class="search__btn">search</button>
                 </div>
             </div>
         </div>
-    </main>
-    <script type="module" src="./src/main.ts"></script>
+    </div>
+</div>
 </body>
 </html>

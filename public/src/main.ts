@@ -128,4 +128,26 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Error fetching song by ID:', err)
     }
   }
+
+  // ================== interactive buble ==================
+  let curX: number = 0
+  let curY: number = 0
+  let tgX: number = 0
+  let tgY: number = 0
+
+  function move() {
+    curX += (tgX - curX) * 0.2
+    curY += (tgY - curY) * 0.2
+    interBubble.style.transform = `translate(${Math.round(curX)}px , ${Math.round(curY)}px)`
+    requestAnimationFrame(() => {
+      move()
+    })
+  }
+  const interBubble: HTMLDivElement = document.querySelector<HTMLDivElement>('.interactive')!
+  window.addEventListener('mousemove', (e) => {
+    tgX = e.clientX
+    tgY = e.clientY
+    
+  })
+  move()
 })
