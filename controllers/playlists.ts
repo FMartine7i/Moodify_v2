@@ -1,13 +1,15 @@
 import { getSpotifyApi } from '../service/spotify_service.js';
 import { Request, Response } from 'express'
-import Album from '../models/playlists_schema.js'
-import moods from '../data/moods.json' assert { type: 'json' }
+import Playlist from '../models/playlists_schema.js'
+import fs from 'fs'
+import path from 'path' // leer dinámicamente el archivo JSON con los moods
+const moods = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data/moods.json'), 'utf-8'))
 
 // -------------------- GET ALL PLAYLISTS -------------------
 const getPlaylists = async (req: Request, res: Response) => {
   try {
     const query: any = {}
-    const playlists = await Album.find(query)
+    const playlists = await Playlist.find(query)
     res.status(200).json(playlists)
   } catch (err) {
     res.status(500).json({ error: 'Error al obtener las playlists' })
@@ -20,7 +22,7 @@ const getPlaylistsByMood = async (req: Request, res: Response) => {
     const { mood } = req.query
     if (!mood || !(mood as string in moods)) return res.status(400).json({ error: 'Falta el parámetro de búsqueda (mood)' })
     
-    const playlistsFromDB = await Album.find({ moods: mood })
+    const playlistsFromDB = await Playlist.find({ moods: mood })
     if ( playlistsFromDB.length >= 10 ) return res.status(200).json({ local: playlistsFromDB, spotify: [] })
     
     const spotifyApi = await getSpotifyApi()

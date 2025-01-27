@@ -1,7 +1,9 @@
 import { getSpotifyApi } from '../service/spotify_service.js';
 import { Request, Response } from 'express'
 import Song from '../models/songs_schema.js'
-import moods from '../data/moods.json' assert { type: 'json' }
+import fs from 'fs'
+import path from 'path' // leer dinámicamente el archivo JSON con los moods
+const moods = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data/moods.json'), 'utf-8'))
 
 // -------------------- GET ALL SONGS -------------------
 const getSongs = async (req: Request, res: Response) => {
