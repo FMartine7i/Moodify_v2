@@ -2,11 +2,10 @@ import dotenv from 'dotenv'
 dotenv.config()
 import express, { Application } from 'express'
 import cors from 'cors'
-import connectDB from '../database/conex.js'
-import initializeCounters from '../database/init_database.js'
-import { fetchAndSaveSongs, fetchAndSaveAlbums, fetchAndSavePlaylists } from '../database/fetch_items.js'
 import songsRouter from '../routes/songs.js'
 import albumsRouter from '../routes/albums.js'
+import playlistsRouter from '../routes/playlists.js'
+import connectDB from '../database/conex.js'
 
 class Server {
   private app: Application
@@ -28,16 +27,12 @@ class Server {
   routes() {
     this.app.use('/api/v2/songs', songsRouter)
     this.app.use('/api/v2/albums', albumsRouter)
+    this.app.use('/api/v2/playlists', playlistsRouter)
   }
   // conexión a base de datos
   public async listen() {
     try {
       await connectDB()
-      await fetchAndSaveSongs()
-      await fetchAndSaveAlbums()
-      await fetchAndSavePlaylists()
-      await initializeCounters()
-      console.log('Base de datos y contadores inicializados.')
       this.app.listen(this.port, () => {
         console.log(`Servidor corriendo en puerto ${this.port}`)
       })
