@@ -1,0 +1,52 @@
+import { getSpotifyApi } from '../service/spotify_service.js';
+import Album from '../models/albums_schema.js';
+import moods from '../data/moods.json' assert { type: 'json' };
+// -------------------- GET ALL ALBUMS -------------------
+const getAlbums = async (req, res) => {
+    try {
+        const { title, artist, year, ...invalidParams } = req.query;
+        const validParams = ['title', 'artist', 'year'];
+        const extraParams = Object.keys(invalidParams).filter(param => !validParams.includes(param));
+        // alertar que ciertos parámetros no son válidos
+        if (extraParams.length > 0)
+            return res.status(400).json({ error: `Parámetros inválidos: ${extraParams.join(', ')}` });
+        const query = {};
+        if (title)
+            query.title = { $regex: title, $options: 'i' }; // búsqueda insensible a mayúsculas y minúsculas
+        if (artist)
+            query.title = { $regex: artist, $options: 'i' };
+        if (year)
+            query.year = year;
+        const albums = await Album.find(query);
+        res.status(200).json(albums);
+    }
+    catch (err) {
+        res.status(500).json({ error: 'Error al obtener los álbumes' });
+    }
+};
+// -------------------- GET ALBUMS BY MOOD -------------------
+const getAlbumsByMood = async (req, res) => {
+    try {
+        const { mood } = req.query;
+        if (!mood || !(mood in moods))
+            return res.status(400).json({ error: 'Falta el parámetro de búsqueda (mood)' });
+        const albumsFromDB = await Album.find({ moods: mood });
+        if (albumsFromDB.length >= 10)
+            return res.status(200).json({ local: albumsFromDB, spotify: [] });
+        const spotifyApi = await getSpotifyApi();
+        const keywords = moods[mood];
+        const query = keywords.join(' ');
+        const response = await spotifyApi.searchAlbums(query, { limit: 50 });
+        const albums = response.body.albums?.items.map(album => ({
+            name: album.name,
+            artist: album.artists[0].name,
+            image: album.images[0].url,
+            release_date: album.release_date.split('-')[0]
+        }));
+        res.status(200).json({ local: albumsFromDB, spotify: albums });
+    }
+    catch (err) {
+        res.status(500).json({ error: 'Error al obtener los álbumes' });
+    }
+};
+export { getAlbums, getAlbumsByMood };
