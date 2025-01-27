@@ -3,13 +3,17 @@
 # moodify v2.0 🎵
 ## Spotify API call
 
+| <img src="https://i.imgur.com/pRU3Ch0.png"> | <img src="https://i.imgur.com/anyXEGH.png" height> |
+| - | - |
+| Frontend de moodify con Vite y Sass | Respuesta de la API al endpoint ``/songs`` |
+        
+
 ### Index
 
 * [Descripción](#descripción)
 * [Requerimientos previos](#requerimientos-previos)
 * [Instalación](#instalación)
 * [Inicialización](#inicialización)
-* [Autenticación](#autenticación)
 * [Endpoints](#endpoints)
 * [Base de datos](#base-de-datos)
 * [Paquetes instalados](#paquetes-instalados)
@@ -17,37 +21,80 @@
 * [Estructura carpetas](#estructura-carpetas)
 
 ## Descripción
-**Moodify** es una app que permite a los usuarios encontrar playlists, canciones, artistas y álbums basados en su **estado de ánimo** actual, el **momento del día** o el **género**.
+**Moodify** es una app que permite a los usuarios encontrar playlists, canciones, artistas y álbums basados en su **estado de ánimo** actual, entre otros parámetros.
 ## Requerimientos previos
 > [!IMPORTANT]
 > Tener Node.js instalado en el dispositivo
 ## Instalación
-> Clonar repositorio y luego ir a la terminal y buscar la carpeta ``moodify_api``. Una vez dentro la carpeta, usar el siguiente comando: ``npm install`` o ``npm i``.
+- Clonar repositorio y luego ir a la terminal y buscar la carpeta ``moodify_api``. Una vez dentro la carpeta, usar el siguiente comando: ``npm install`` o ``npm i``.
 ## Inicialización
-> En la consola dentro de la ruta ``\moodify`` escribir el comando: ``node app``
-## Autenticación
-> Crear un archivo ``.env`` en la carpeta principal ``/moodify`` y escribir la siguiente línea: ``TOKEN = <codigo_token>`` con el token enviado.
-## Rutas principales y Query Params
+> [!IMPORTANT]
+> Antes de inicializar la API, deberá conectar crear un archivo .env en la carpeta principal y anotar las siguientes líneas:
+
+<table>
+  <tr>
+    <td><b>PORT</b></td>
+    <td>3000</td>
+    <td>Puerto en el que se ejecutará la API.</td>
+  </tr>
+  <tr>
+    <td><b>SPOTIFY_CLIENT_SECRET</b></td>
+    <td>secret_key</td>
+    <td>Secret key para autenticación dado por Spotify.</td>
+  </tr>
+  <tr>
+    <td><b>SPOTIFY_CLIENT_ID</b></td>
+    <td>client_id</td>
+    <td>Client ID para autenticación dado por Spotify.</td>
+  </tr>
+  <tr>
+    <td><b>MONGODB_URI</b></td>
+    <td>mongodb_uri</td>
+    <td>URI de conexión a la base de datos de tu cuenta de MongoDB.</td>
+  </tr>
+  <tr>
+    <td><b>PLAYLIST_ID</b></td>
+    <td>ID de la playlist a elección</td>
+    <td>Se encuentra en el enlace de la playlist.</td>
+  </tr>
+</table>
+
+- En la consola dentro de la ruta ``\moodify`` escribir el comando: ``node run dev`` para ejecutar sin compilar (permite ver el ``frontend`` junto al ``backend``).
+- Sino, escribir el comando: ``npm run build`` para compilar y ejecutar la API con ``npm run start``.
+
+> [!IMPORTANT]
+> En el port 3000 se encuentra el backend y en el port 5173 el frontend.
+> Si la API fue ejecutada con el comando ``npm run dev``, se puede acceder a la API en el puerto 5173 para ver el proyecto completo.
+
+> [!TIP]
+> Más abajo dejo un cuadro con la lista de scripts disponibles.
+
+## Endpoints
 * Canciones
     | Método | Endpoint | Descripción |
-    |---|---|---|
+    |-|-|-|
     | **GET** | ``api\v1\songs`` | Busca todas las canciones
     | **GET** | ``api\v1\songs\id\:id`` | Busca una canción por su ID (numeros del 1 al 50)
-    | **GET** | ``api\v1\songs?mood=<mood>`` | Busca canciones por estado de ánimo. Se puede elegir: [dark, sad, happy, angry, romantic, emotional, relaxed]
+    | **GET** | ``api\v1\songs?mood=<mood>`` | Busca canciones por estado de ánimo. |
 
 * Playlists
+    > [!WARNING]
+    > Actualmente fuera de servicio.
+
     | Método | Endpoint | Descripción |
-    |---|---|---|
+    |-|-|-|
     | **GET** | ``api\v1\playlists`` | Devuelve 50 playlists |
     | **GET** | ``api\v1\playlists\id\:id`` | Devuelve una playlist por id [1 - 50] |
-    | **GET** | ``api\v1\playlists?TimeOfDay`` | Devuelve 50 playlists para el momento del dia elegido: [mañana, tarde, noche, madrugada] |
 
 * Álbumes
     | Método | Endpoint | Descripción |
-    |---|---|---|
+    |-|-|-|
     | **GET** | ``api\v1\albums`` | Devuelve 50 álbumes |
     | **GET** | ``api\v1\albums\id\:id`` | Devuelve un álbum por id [1 - 50] |
-    | **GET** | ``api\v1\albums?year=<year>`` | Devuelve álbumes del año solicitado |
+    | **GET** | ``api\v1\albums?mood=<mood>`` | Devuelve los álbumes por el estado de ánimo elegido. |
+
+> [!NOTE]
+> Estados de ánimo a elegir: [dark, sad, happy, angry, romantic, emotional, relaxed]
 
 ## Paquetes instalados
 | Paquete | Descripción |
