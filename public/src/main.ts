@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const detailsCard = document.querySelector('.details__card')
   const card2 = document.querySelector('.card__2')
 
+  // ======================== show and hide details  ========================
   idSearchBtn?.addEventListener('click', () => {
     if (detailsCard?.classList.contains('hidden')) {
       detailsCard?.classList.add('show')
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
+  // ==================== scroll progress bar ====================
   const progress = document.getElementById('progressBar') as HTMLProgressElement
   let totalHeight = document.body.scrollHeight - window.innerHeight
   window.addEventListener('scroll', () => {
@@ -39,7 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (progress) progress.style.height = progressHeight + '%'
   })
 
-  const searchSongsBtn = document.querySelector('.display_all')
+  // ==================== display all songs ====================
+  const searchSongsBtn = document.querySelector('.display_all') as HTMLButtonElement
   searchSongsBtn?.addEventListener('click', fetchAllSongs)
 
   function displayAllSongs(songs: any) {
@@ -91,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.alert('No se encontraron canciones')
   }
 
+  // ==================== display song by id ====================
   function displaySong(song: any) {
     songDetails.innerHTML = `
       <h1>${song.name}</h1>
@@ -128,6 +132,29 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Error fetching song by ID:', err)
     }
   }
+
+  // ==================== search song by mood ====================
+  // async function displaySongByMood(mood: string) {
+  //   const response = await fetch(`api/v2/songs?mood=${mood}`)
+  //   const data = await response.json()
+  //   if (response.ok) {
+  //     localStorage.setItem('songs', JSON.stringify(data))
+  //     window.location.href = './songs.html'
+  //   } else {
+  //     window.alert('No se encontraron canciones')
+  //   }
+  // }
+
+  // const searchMoodBtn: HTMLButtonElement = document.querySelector<HTMLButtonElement>('.search_by_mood')!
+  // searchMoodBtn.addEventListener('click', () => {
+  //   const mood = document.getElementById('selectMood') as HTMLInputElement
+  //   const moodValue = mood.value
+  //   try {
+  //     displaySongByMood(moodValue)
+  //   } catch(err) {
+  //     window.alert('Error al encontrar canciones por mood.')
+  //   }
+  // })
 
   // ================== interactive buble ==================
   let curX: number = 0

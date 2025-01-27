@@ -215,6 +215,16 @@ body {
   z-index: 100;
 }
 
+.menu__close {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 10px 0 0;
+}
+
+.menu__close i {
+  font-size: 2rem;
+}
+
 .side__bar ul li i {
   font-size: 2rem;
 }
@@ -242,8 +252,7 @@ body {
     display: flex;
     align-items: center;
     list-style: none;
-    padding: 10px;
-    gap: 5px;
+    gap: 17px;
 }
 
 .side__bar li:hover {
@@ -342,7 +351,7 @@ body {
   max-width: 60px;
 }
 
-.card p {
+.card p, .card__2-rec p {
   padding: 10px;
   max-width: 350px;
 }

@@ -20,6 +20,9 @@
     <input type="search" class="search__bar" placeholder="Search for a song">
   </nav>
   <div class="side__bar">
+    <div class="menu__close">
+      <i class='bx bx-x'></i>
+    </div>
     <div class="sidebar__container">
       <img src="./imgs/moodify_logo.png" width="60%">
       <ul>
@@ -75,7 +78,7 @@
             </div>
             <div class="card__2 card">
                 <img src="./imgs/Synthwave.jpg" alt="songs by id">
-                <div>
+                <div class="info__container">
                     <p>find song by ID</p>
                     <input type="text" class="id__input" id="idSongInput" placeholder="[1 - 50]">
                 </div>
@@ -86,20 +89,20 @@
                 </div>
             </div>
             <div class="card__3 card">
-                <img src="./imgs/moody_songs.jpeg" alt="songs based on mood">
-                <div>
-                    <p>find by current mood</p>
-                    <select name="mood" id="selectMood">
-                        <option value="happy">happy</option>
-                        <option value="sad">sad</option>
-                        <option value="relaxed">relaxed</option>
-                        <option value="angry">angry</option>
-                        <option value="dark">dark</option>
-                        <option value="romantic">romantic</option>
-                        <option value="emotional">emotional</option>
-                    </select>
-                </div>
-                <button class="search__btn search_by_mood">search</button>
+              <img src="./imgs/moody_songs.jpeg" alt="songs based on mood">
+              <div>
+                <p>find by current mood</p>
+                <select name="mood" id="selectMood">
+                  <option value="happy">happy</option>
+                  <option value="sad">sad</option>
+                  <option value="relaxed">relaxed</option>
+                  <option value="angry">angry</option>
+                  <option value="dark">dark</option>
+                  <option value="romantic">romantic</option>
+                  <option value="emotional">emotional</option>
+                </select>
+              </div>
+              <button class="search__btn search_by_mood">search</button>
             </div>
         </div>
     </div>
