@@ -1,6 +1,6 @@
 import { getSpotifyApi } from '../service/spotify_service.js';
 import { Request, Response } from 'express'
-import Song from '../models/songs_scheme.js'
+import Song from '../models/songs_schema.js'
 import moods from '../data/moods.json' assert { type: 'json' }
 
 // -------------------- GET ALL SONGS -------------------
