@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import User from '../models/user_scheme.js'
+import User from '../models/user_schema.js'
 import { Request, Response } from 'express'
 
 const registerUser = async(req: Request, res: Response) => {
