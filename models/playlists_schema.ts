@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose'
-import Counter from './counter.js'
+import { Counter } from './counter.js'
 
 interface IPlaylist extends Document {
     id?: number

@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose'
-import Counter from './counter.js'
+import { Counter } from './counter.js'
 
 interface ISong extends Document {
     id?: number
@@ -10,6 +10,7 @@ interface ISong extends Document {
     preview_url: string
     duration: string
     year?: number
+    isFavorite?: boolean
 }
 
 const songSchema: Schema<ISong> = new Schema ({
@@ -20,7 +21,8 @@ const songSchema: Schema<ISong> = new Schema ({
     image: { type: String },
     preview_url: { type: String },
     duration: { type: String },
-    year: { type: Number }
+    year: { type: Number },
+    isFavorite: { type: Boolean, default: false }
 })
 
 songSchema.pre('save', async function (next) {
