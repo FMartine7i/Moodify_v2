@@ -10,7 +10,8 @@
     "lint:fix": "standard --fix",
     "build": "tsc && vite build",
     "dev": "concurrently \"vite\" \"node --loader ts-node/esm --inspect app.ts\"",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "initialize-db": "node --loader ts-node/esm --inspect database/init_database.ts"
   },
   "author": "fede",
   "license": "ISC",
