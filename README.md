@@ -3,9 +3,9 @@
 # moodify v2.0 🎵
 ## Spotify API call
 
-| <img src="https://i.imgur.com/pRU3Ch0.png"> | <img src="https://i.imgur.com/anyXEGH.png" height> |
-| - | - |
-| Frontend de moodify con Vite y Sass | Respuesta de la API al endpoint ``/songs`` |
+| <img src="https://i.imgur.com/pRU3Ch0.png" height="80%"> | 
+| - |
+| <img src="https://i.imgur.com/anyXEGH.png"> |
         
 
 ### Index
@@ -21,7 +21,13 @@
 * [Estructura carpetas](#estructura-carpetas)
 
 ## Descripción
-**Moodify** es una app que permite a los usuarios encontrar playlists, canciones, artistas y álbums basados en su **estado de ánimo** actual, entre otros parámetros.
+Este es un proyecto de API para la app **moodify** desarollado con ``Node.js`` que integra la API de ``Spotify`` para extraer y gestionar datos. Se conecta a una base de datos en MongoDB para almacenar y y organizar información sobrne canciones, álbumes y playlists. Mientras que su función principal es interactuar con la API de ``Spotify``, el proyecto también presenta un frontend limpio y estético desarrollado con ``vite`` y ``sass``.
+- **Backend**: Construida con Node.js, Express y MongoDB, la API permite buscar y obtener datos de canciones, álbumes y playlists de Spotify.
+- **Frontend**: Diseñado con Vite para un desarrollo rápido y fluido y con Sass para estilos escalables.
+- **Spotify API**: 
+- **Base de datos**: utiliza MongoDB para un almacenamiento eficiente y escalable de datos.
+- **Tech Stack***: Node.js, Express, MongoDB, Vite, Sass, Spotify API, TypeScript.
+
 ## Requerimientos previos
 > [!IMPORTANT]
 > Tener Node.js instalado en el dispositivo
@@ -66,7 +72,7 @@
 > En el port 3000 se encuentra el backend y en el port 5173 el frontend.
 > Si la API fue ejecutada con el comando ``npm run dev``, se puede acceder a la API en el puerto 5173 para ver el proyecto completo.
 
-> [!TIP]
+> [!NOTE]
 > Más abajo dejo un cuadro con la lista de scripts disponibles.
 
 ## Endpoints
