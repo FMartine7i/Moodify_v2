@@ -1,8 +1,8 @@
 import dotenv from 'dotenv'
 dotenv.config()
-import Song from '../models/songs_schema.js'
-import Album from '../models/albums_schema.js'
-import Playlist from '../models/playlists_schema.js'
+import Song from '../models/songs_model.js'
+import Album from '../models/albums_model.js'
+import Playlist from '../models/playlists_model.js'
 import { getSpotifyApi } from '../service/spotify_service.js'
 
 // Función para formatear la duración de la canción dada en ms por dafault en minutos y segundos

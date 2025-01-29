@@ -1,8 +1,8 @@
 import { initializeCounters } from '../models/counter.js'
 import connectDB from './conex.js'
-import Song from '../models/songs_schema.js'
-import Album from '../models/albums_schema.js'
-import Playlist from '../models/playlists_schema.js'
+import Song from '../models/songs_model.js'
+import Album from '../models/albums_model.js'
+import Playlist from '../models/playlists_model.js'
 import { fetchAndSaveSongs, fetchAndSaveAlbums, fetchAndSavePlaylists } from './fetch_items.js'
 
 const initializeDatabase = async () => {
