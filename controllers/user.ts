@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import User from '../models/user_schema.js'
+import User from '../models/user_model.js'
 import { Request, Response } from 'express'
 import { UserDAO } from '../DAO/user_dao.js'
 
@@ -51,10 +51,11 @@ class UserController {
     }
   }
 
-  getUserByUsername(req: Request, res: Response) {
+  async getUserByUsername(req: Request, res: Response) {
     const { username } = req.params
     try {
-      const user = userDao.findByUsername(username)
+      const user = await userDao.findByUsername(username)
+      console.log('Usuario encontrado:', user)
       if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
       res.status(200).json(user)
     } catch (err) {

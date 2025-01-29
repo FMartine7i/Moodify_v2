@@ -1,6 +1,6 @@
 import { getSpotifyApi } from '../service/spotify_service.js';
 import { Request, Response } from 'express'
-import Playlist from '../models/playlists_schema.js'
+import Playlist from '../models/playlists_model.js'
 import fs from 'fs'
 import path from 'path' // leer dinámicamente el archivo JSON con los moods
 const moods = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data/moods.json'), 'utf-8'))
