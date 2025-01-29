@@ -1,12 +1,8 @@
 import mongoose, { Schema, Document } from 'mongoose'
 import { Counter } from './counter.js'
+import { Playlist } from '../entities/playlist.js'
 
-interface IPlaylist extends Document {
-    id?: number
-    name: string
-    image: string
-    description: string
-}
+interface IPlaylist extends Playlist,  Document { id: number }
 
 const playlistSchema: Schema<IPlaylist> = new Schema ({
     id: { type: Number, unique: true },
@@ -32,4 +28,4 @@ playlistSchema.pre('save', async function (next) {
   next()
 })
 
-export default mongoose.model('Playlist', playlistSchema)
+export default mongoose.model<IPlaylist>('Playlist', playlistSchema)

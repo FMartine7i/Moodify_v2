@@ -1,13 +1,8 @@
 import mongoose, { Schema, Document } from 'mongoose'
 import { Counter } from './counter.js'
+import { Album } from '../entities/album.js'
 
-interface IAlbum extends Document {
-  id?: number
-  name: string
-  artist: string
-  image: string
-  release_date: string
-}
+interface IAlbum extends Album, Document { id: number }
 
 const albumSchema: Schema<IAlbum> = new Schema ({
   id: { type: Number, unique: true },
@@ -34,4 +29,4 @@ albumSchema.pre('save', async function (next) {
   next()
 })
 
-export default mongoose.model('Album', albumSchema)
+export default mongoose.model<IAlbum>('Album', albumSchema)

@@ -1,45 +1,36 @@
 import mongoose, { Schema, Document } from 'mongoose'
 import { Counter } from './counter.js'
+import { Song } from '../entities/song.js'
 
-interface ISong extends Document {
-    id?: number
-    name: string
-    artist: string
-    album: string
-    image: string
-    preview_url: string
-    duration: string
-    year?: number
-    isFavorite?: boolean
-}
+interface ISong extends Song, Document { id: number }
 
 const songSchema: Schema<ISong> = new Schema ({
-    id: { type: Number, unique: true },
-    name: { type: String, required: true },
-    artist: { type: String, required: true },
-    album: { type: String, required: true },
-    image: { type: String },
-    preview_url: { type: String },
-    duration: { type: String },
-    year: { type: Number },
-    isFavorite: { type: Boolean, default: false }
-})
+  id: { type: Number, required: true },
+  name: { type: String, required: true },
+  artist: { type: String, required: true },
+  album: { type: String, required: true },
+  image: { type: String },
+  preview_url: { type: String },
+  duration: { type: String },
+  year: { type: Number },
+  isFavorite: { type: Boolean, default: false }
+})  
 
 songSchema.pre('save', async function (next) {
-    if (this.isNew) {
-      try {
-        const counter = await Counter.findByIdAndUpdate(
-            { _id: 'songId' },
-            { $inc: { seq: 1 } },
-            { new: true, upsert: true }
-        )
-        this.id = counter?.seq || 1
+  if (this.isNew) {
+    try {
+    const counter = await Counter.findByIdAndUpdate(
+      { _id: 'songId' },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+      )
+      this.id = counter?.seq || 1
     } catch (err) {
-        console.error('Error al obtener el contador:', err)
-        return next(err as Error)
+      console.error('Error al obtener el contador:', err)
+      return next(err as Error)
     }
   }
   next()
 })
 
-export default mongoose.model('Song', songSchema)
+export default mongoose.model<ISong>('Song', songSchema)
