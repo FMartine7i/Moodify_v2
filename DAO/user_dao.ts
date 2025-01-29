@@ -1,4 +1,4 @@
-import UserModel from '../models/user_schema.js'
+import UserModel from '../models/user_model.js'
 import { User } from '../entities/user.js'
 
 export class UserDAO {
