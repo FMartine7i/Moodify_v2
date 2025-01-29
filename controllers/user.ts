@@ -38,7 +38,7 @@ class UserController {
   }
 
   async getUserById(req: Request, res: Response) {
-    const { id } = req.body
+    const { id } = req.params
     const userId = Number(id)
     try {
       const user = await userDao.findById(userId)
@@ -52,7 +52,8 @@ class UserController {
   }
 
   async getUserByUsername(req: Request, res: Response) {
-    const { username, password } = req.params
+    const { username } = req.params
+    const { password } = req.body
     try {
       const user = await userDao.findByUsername(username)
       if (!user) return res.status(404).json({ error: 'User not found.' })
