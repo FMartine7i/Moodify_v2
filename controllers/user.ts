@@ -33,17 +33,17 @@ class UserController {
       const users = await userDao.findAll()
       res.status(200).json(users)
     } catch (err) {
-      res.status(500).json({ error: 'Error al obtener los usuarios' })
+      res.status(500).json({ error: 'Users not found.' })
     }
   }
 
   async getUserById(req: Request, res: Response) {
-    const { id } = req.params
+    const { id } = req.body
     const userId = Number(id)
     try {
       const user = await userDao.findById(userId)
       console.log('Usuario encontrado:', user)
-      if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
+      if (!user) return res.status(404).json({ error: 'User not found.' })
       res.status(200).json(user)
     } catch (err) {
       console.error('Error al obtener el usuario:', err)
@@ -52,12 +52,13 @@ class UserController {
   }
 
   async getUserByUsername(req: Request, res: Response) {
-    const { username } = req.params
+    const { username, password } = req.params
     try {
       const user = await userDao.findByUsername(username)
-      console.log('Usuario encontrado:', user)
-      if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
-      res.status(200).json(user)
+      if (!user) return res.status(404).json({ error: 'User not found.' })
+      const isPasswordValid = await bcrypt.compare(password, user.password)
+      if (!isPasswordValid) return res.status(400).json({ error: 'Invalid password.' })
+      res.status(200).json(user) 
     } catch (err) {
       console.error('Error al obtener el usuario:', err)
       res.status(500).json({ error: 'Error al obtener el usuario' })
