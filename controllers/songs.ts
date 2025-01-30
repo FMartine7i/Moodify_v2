@@ -63,7 +63,7 @@ const getSongsByMood = async (req: Request, res: Response) => {
       preview: track.preview_url || '',
       duration: track.duration_ms
     }))
-    res.status(200).json({ local: songsFromDB, spotify: tracks })
+    res.status(200).json(tracks)
   } catch (err) {
     res.status(500).json({ error: 'Error al obtener las canciones' })
   }
