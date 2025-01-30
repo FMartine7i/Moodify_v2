@@ -9,7 +9,8 @@ const albumSchema: Schema<IAlbum> = new Schema ({
   name: { type: String, required: true },
   artist: { type: String, required: true },
   image: { type: String },
-  release_date: { type: String }
+  release_date: { type: String },
+  isFavorite: { type: Boolean, default: false }
 })
 
 albumSchema.pre('save', async function (next) {
