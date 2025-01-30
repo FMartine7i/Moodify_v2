@@ -12,6 +12,12 @@ export default defineConfig({
   build: {
     outDir: '../dist/public',
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: 'public/index.html',
+        songs: 'public/songs.html',
+      }
+    }
   },
   server: {
     proxy: {
