@@ -6,6 +6,6 @@ export interface Song {
   image: string
   preview_url: string
   duration: string
-  year?: number
+  year?: string
   isFavorite?: boolean
 }

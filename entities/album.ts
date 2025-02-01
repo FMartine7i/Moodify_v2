@@ -4,5 +4,5 @@ export interface Album {
   artist: string
   image: string
   release_date: string
-  isFavorite: boolean
+  isFavorite?: boolean
 }
