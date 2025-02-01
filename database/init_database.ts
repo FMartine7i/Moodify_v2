@@ -1,9 +1,8 @@
 import { initializeCounters } from '../models/counter.js'
 import connectDB from './conex.js'
-import Song from '../models/songs_model.js'
-import Album from '../models/albums_model.js'
-import Playlist from '../models/playlists_model.js'
-import { fetchAndSaveSongs, fetchAndSaveAlbums, fetchAndSavePlaylists } from './fetch_items.js'
+import { fetchSongs, fetchSongsByMood } from '../controllers/songs.js'
+import { fetchAlbums, fetchAlbumsByMood } from '../controllers/albums.js'
+import { fetchPlaylists } from '../controllers/playlists.js'
 
 const initializeDatabase = async () => {
   try {
@@ -12,32 +11,11 @@ const initializeDatabase = async () => {
     console.log('Conectado a la base de datos.')
     //inicializar contadores
     await initializeCounters()
-    // verificar si hay canciones en la base de datos
-    const countSongs = await Song.countDocuments()
-    if (countSongs > 0) {
-      console.log('Canciones ya inicializadas en la base de datos.')
-    } else {
-      await fetchAndSaveSongs()
-      console.log('Canciones inicializadas en la base de datos.')
-    }
-    // verificar si hay albums en la base de datos
-    const countAlbums = await Album.countDocuments()
-    if (countAlbums > 0) {
-      console.log('Albums ya inicializados en la base de datos.')
-      return
-    } else {
-      await fetchAndSaveAlbums()
-      console.log('Albums inicializados en la base de datos.')
-    }
-    // verificar si hay playlists en la base de datos
-    const countPlaylists = await Playlist.countDocuments()
-    if (countPlaylists > 0) {
-      console.log('Playlists ya inicializadas en la base de datos.')
-      return
-    } else {
-      await fetchAndSavePlaylists()
-      console.log('Playlists inicializadas en la base de datos.')
-    }
+    await fetchSongs()
+    await fetchSongsByMood()  
+    await fetchAlbums()
+    await fetchAlbumsByMood()
+    await fetchPlaylists()
   } catch (err) {
     console.log('No se ha podido conectar a la base de datos', err)
   }
