@@ -5,14 +5,14 @@ import { Song } from '../entities/song.js'
 interface ISong extends Song, Document { id: number }
 
 const songSchema: Schema<ISong> = new Schema ({
-  id: { type: Number, required: true },
+  id: { type: Number },
   name: { type: String, required: true },
   artist: { type: String, required: true },
   album: { type: String, required: true },
   image: { type: String },
   preview_url: { type: String },
   duration: { type: String },
-  year: { type: Number },
+  year: { type: String },
   isFavorite: { type: Boolean, default: false }
 })  
 

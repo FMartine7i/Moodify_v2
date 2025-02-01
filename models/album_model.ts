@@ -5,7 +5,7 @@ import { Album } from '../entities/album.js'
 interface IAlbum extends Album, Document { id: number }
 
 const albumSchema: Schema<IAlbum> = new Schema ({
-  id: { type: Number, unique: true },
+  id: { type: Number },
   name: { type: String, required: true },
   artist: { type: String, required: true },
   image: { type: String },
