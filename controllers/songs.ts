@@ -1,10 +1,57 @@
+import dotenv from 'dotenv'
 import { getSpotifyApi } from '../service/spotify_service.js';
 import { Request, Response } from 'express'
-import Song from '../models/songs_model.js'
+import Song from '../models/song_model.js'
+import { SongDAO } from '../DAO/song_dao.js'
 import fs from 'fs'
 import path from 'path' // leer dinámicamente el archivo JSON con los moods
 const moods = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data/moods.json'), 'utf-8'))
+const songDao = new SongDAO()
 
+// Función para formatear la duración de la canción dada en ms por dafault en minutos y segundos
+const formatDuration = (ms: number) => {
+  const minutes = Math.floor((ms / 1000) / 60)
+  const seconds = Math.floor((ms / 1000) % 60)
+  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+}
+// ====================== ADD SONG to database =======================
+const fetchSongs = async () => {
+  try {
+    const playlist_id = process.env.PLAYLIST_ID
+    if (!playlist_id) return console.log('PLAYLIST_ID env variable not found.')
+    
+    const spotifyApi = await getSpotifyApi()
+    const response = await spotifyApi.getPlaylistTracks(playlist_id, { limit: 50 });
+    const tracks = response.body.items
+    // validar que la playlist no devuelva valores nulos
+    if (!tracks || tracks.length === 0) {
+      console.log('No se encontraron canciones en la playlist.')
+      return
+    } 
+    // verificar que la canción no exista previamente en la BD
+    for (const track of tracks) {
+      const name = track.track?.name || ''
+      const artist = track.track?.artists[0].name || ''
+      const existingSong = await songDao.findByNameAndArtist(name, artist)
+      if (existingSong) {
+        console.log(`La canción ${track.track?.name} ya existe en la base de datos.`)
+        continue  // salta al siguiente track
+      }
+
+      await songDao.create({
+        name: name,
+        artist: artist,
+        album: track.track?.album.name || '',
+        image: track.track?.album.images[0].url || '',
+        preview_url: track.track?.preview_url || '',
+        duration: formatDuration(track.track?.duration_ms || 0),
+        year: track.track?.album.release_date.slice(0, 4) || ''
+      })
+    }
+  } catch (err) {
+    console.log('Error al agregar las canciones a la BD', err)
+  }
+}
 // -------------------- GET ALL SONGS -------------------
 const getSongs = async (req: Request, res: Response) => {
   try {
@@ -19,26 +66,70 @@ const getSongs = async (req: Request, res: Response) => {
     if (title) query.title = { $regex: title, $options: 'i' } 
     if (artist) query.artist = { $regex: artist, $options: 'i' }
     if (year) query.year = year
-
-    const songs = await Song.find(query)
-    res.status(200).json(songs)
+    const response = await songDao.findAll(query)
+    res.status(200).json(response)
 } catch (err) {
     res.status(500).json({ error: 'Error al obtener las canciones' })
   }
 }
-
 // -------------------- GET SONG BY ID -------------------
 const getSongById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
+    const songId = Number(id)
     // Validar que el ID sea un número válido
-    if (!/^\d+$/.test(id)) return res.status(400).json({ error: 'ID inválido' });
+    if (isNaN(songId)) return res.status(400).json({ error: 'ID inválido' });
 
-    const song = await Song.findOne({ id: Number(id) })
+    const song = await songDao.findById(songId)
     if (!song) return res.status(404).json({ error: 'Canción no encontrada' })
     res.status(200).json(song)
   } catch {
     res.status(500).json({ error: 'Error al obtener la canción' })
+  }
+}
+// ===================== ADD SONG BY MOOD to database =======================
+const fetchSongsByMood = async () => {
+  try {    
+    const spotifyApi = await getSpotifyApi()
+    for (const mood in moods) {
+      const keywords = moods[mood as keyof typeof moods]
+      const query = keywords.join(' ')
+      const response = await spotifyApi.searchTracks(query, { limit: 20 });
+      const tracks = response.body.tracks?.items
+      // validar que la playlist no devuelva valores nulos
+      if (!tracks || tracks.length === 0) {
+        console.log('No se encontraron canciones en la playlist.')
+        return
+      } 
+      // verificar que la canción no exista previamente en la BD
+      for (const track of tracks) {
+        const name = track.name || ''
+        const artist = track.artists[0].name || ''
+        const album = track.album.name || ''
+        const existingSong = await songDao.findByNameAndArtist(name, artist)
+        if (existingSong) {
+          console.log(`La canción ${track.name} ya existe en la base de datos.`)
+          continue  // salta al siguiente track
+        }
+        // si las palabras clave de la lista de moods no están en la canción, saltar a la siguiente canción
+        if (!keywords.some((keyword: string) => name.toLowerCase().includes(keyword) ||
+        artist.toLowerCase().includes(keyword) || album.toLowerCase().includes(keyword))) {
+            continue
+        }
+
+        await songDao.create({
+          name: name,
+          artist: artist,
+          album: track.album.name || '',
+          image: track.album.images[0].url || '',
+          preview_url: track.preview_url || '',
+          duration: formatDuration(track.duration_ms || 0),
+          year: track.album.release_date.slice(0, 4) || ''
+        })
+      }
+    }
+  } catch(err) {
+    console.log('Error al agregar las canciones a la BD', err)
   }
 }
 
@@ -46,27 +137,30 @@ const getSongById = async (req: Request, res: Response) => {
 const getSongsByMood = async (req: Request, res: Response) => {
   try{   
     const { mood } = req.query
-    if (!mood || !(mood as string in moods)) return res.status(400).json({ error: 'Falta el parámetro de búsqueda (mood)' })
+    if (!moods.hasOwnProperty(mood as string)) return res.status(400).json({ error: 'Falta el parámetro de búsqueda (mood)' })
     
-    const songsFromDB = await Song.find({ moods: mood })
-    if ( songsFromDB.length >= 10 ) return res.status(200).json({ local: songsFromDB, spotify: [] })
-
-    const spotifyApi = await getSpotifyApi()
     const keywords = moods[mood as keyof typeof moods]
-    const query = keywords.join(' ')
-    const response = await spotifyApi.searchTracks(query, { limit: 50 })
-    const tracks = response.body.tracks?.items.map(track => ({
-      name: track.name,
-      artist: track.artists[0].name,
-      album: track.album.name,
-      image: track.album.images[0].url,
-      preview: track.preview_url || '',
-      duration: track.duration_ms
-    }))
-    res.status(200).json(tracks)
+    const query = {
+      $or: keywords.flatMap((keyword: string) => [
+        { name: { $regex: keyword, $options: 'i' } },
+        { artist: { $regex: keyword, $options: 'i' } },
+        { album: { $regex: keyword, $options: 'i' } }   
+      ])
+    }
+
+    console.log("Cuerpo de la consulta:", JSON.stringify(query, null, 2));
+    const response = await songDao.findAll(query)
+    console.log("Cuerpo de la consulta:", {
+      $or: keywords.flatMap((keyword: string) => ({
+        name: { $regex: keyword, $options: 'i' },
+        artist: { $regex: keyword, $options: 'i' },
+        album: { $regex: keyword, $options: 'i' }}))
+    })
+    console.log(response)
+    res.status(200).json(response)
   } catch (err) {
     res.status(500).json({ error: 'Error al obtener las canciones' })
   }
 }
 
-export { getSongs, getSongById, getSongsByMood }
+export { fetchSongs, fetchSongsByMood, getSongs, getSongById, getSongsByMood }
