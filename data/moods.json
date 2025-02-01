@@ -1,10 +1,11 @@
 {
-  "relaxed": ["chill", "acoustic", "relax", "lofi", "reggae", "chillhop"],
-  "happy": ["happy", "uplifting", "coldplay", "energetic", "abba", "pop", "summer"],
-  "sad": ["melancholy", "sad", "emotional", "slow", "damien rice", "tom odell"],
-  "angry": ["metal", "hard rock", "judas priest", "metallica", "iron maiden", "pantera"],
-  "dark": ["dark", "gloomy", "somber", "bauhaus", "depeche mode"],
-  "romantic": ["romantic", "love", "duran duran", "the cure"],
-  "emotional": ["emotional", "heartfelt", "expressive", "soulful"]
+  "relaxed": ["panda dub", "rain", "lofi", "stick figure", "chillhop"],
+  "happy": ["queen", "coldplay", "rosé", "copines" ,"summer"],
+  "sad": ["radiohead" ,"joy division", "damien rice", "tom odell"],
+  "angry": ["linkin park", "judas priest", "metallica", "iron maiden", "pantera"],
+  "dark": ["crystal castles", "bauhaus", "depeche mode", "molchat doma"],
+  "romantic": ["backstreet boys", "coldplay", "duran duran", "the cure"],
+  "epic": ["league", "valorant", "star wars"],
+  "badass": ["arctic monkeys", "metallica", "slash"]
 }
   
