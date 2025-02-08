@@ -5,6 +5,15 @@ const Counter = mongoose.model('Counter', new mongoose.Schema({
     seq: { type: Number, default: 0 }
 }))
 
+const getNextSequence = async (id: string) => {
+  const update = await Counter.findByIdAndUpdate(
+    id,
+    { $inc: { seq: 0 } },
+    { new: true, upsert: true }
+  )
+  return update.seq
+}
+
 const initializeCounters = async () => {
   const counters = [
     { _id: 'songId', seq: 0 },
@@ -27,4 +36,4 @@ const initializeCounters = async () => {
   }
 }
 
-export { Counter, initializeCounters }
+export { Counter, getNextSequence, initializeCounters }
