@@ -1,7 +1,6 @@
-import dotenv from 'dotenv'
 import { getSpotifyApi } from '../service/spotify_service.js';
 import { Request, Response } from 'express'
-import Song from '../models/song_model.js'
+import { getNextSequence } from '../models/counter.js'
 import { SongDAO } from '../DAO/song_dao.js'
 import fs from 'fs'
 import path from 'path' // leer dinámicamente el archivo JSON con los moods
@@ -14,7 +13,32 @@ const formatDuration = (ms: number) => {
   const seconds = Math.floor((ms / 1000) % 60)
   return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
 }
-// ====================== ADD SONG to database =======================
+// ======================= ADD SONG to database =========================
+const insertSong = async (req: Request, res: Response) => {
+  try {
+    const { name, artist, album, image, preview_url, duration, year } = req.body
+    const song = await songDao.findByNameAndArtist(name, artist)
+    if (song) return res.status(400).json({ error: 'La canción ya existe en la base de datos.' })
+    if (!name || !artist || !album || !image || !duration || !year) return res.status(400).json({ error: 'Faltan campos obligatorios' })
+    
+    const songId = await getNextSequence('songId')
+    const newSong = await songDao.create({
+      id: songId,
+      name: name,
+      artist: artist,
+      album: album,
+      image: image,
+      preview_url: preview_url || '',
+      duration: formatDuration(duration),
+      year: year
+    })
+    res.status(200).json(newSong)
+  } catch (error) {
+    console.error('Error al insertar la canción en la base de datos:', error)
+    res.status(500).json({ error: 'Error al insertar la canción en la base de datos.' })
+  }
+}
+// ====================== FETCH SONGS to database =======================
 const fetchSongs = async () => {
   try {
     const playlist_id = process.env.PLAYLIST_ID
@@ -105,7 +129,6 @@ const fetchSongsByMood = async () => {
       for (const track of tracks) {
         const name = track.name || ''
         const artist = track.artists[0].name || ''
-        const album = track.album.name || ''
         const existingSong = await songDao.findByNameAndArtist(name, artist)
         if (existingSong) {
           console.log(`La canción ${track.name} ya existe en la base de datos.`)
@@ -113,7 +136,7 @@ const fetchSongsByMood = async () => {
         }
         // si las palabras clave de la lista de moods no están en la canción, saltar a la siguiente canción
         if (!keywords.some((keyword: string) => name.toLowerCase().includes(keyword) ||
-        artist.toLowerCase().includes(keyword) || album.toLowerCase().includes(keyword))) {
+        artist.toLowerCase().includes(keyword))) {
             continue
         }
 
@@ -143,8 +166,7 @@ const getSongsByMood = async (req: Request, res: Response) => {
     const query = {
       $or: keywords.flatMap((keyword: string) => [
         { name: { $regex: keyword, $options: 'i' } },
-        { artist: { $regex: keyword, $options: 'i' } },
-        { album: { $regex: keyword, $options: 'i' } }   
+        { artist: { $regex: keyword, $options: 'i' } }  
       ])
     }
 
@@ -154,7 +176,7 @@ const getSongsByMood = async (req: Request, res: Response) => {
       $or: keywords.flatMap((keyword: string) => ({
         name: { $regex: keyword, $options: 'i' },
         artist: { $regex: keyword, $options: 'i' },
-        album: { $regex: keyword, $options: 'i' }}))
+      }))
     })
     console.log(response)
     res.status(200).json(response)
@@ -163,4 +185,4 @@ const getSongsByMood = async (req: Request, res: Response) => {
   }
 }
 
-export { fetchSongs, fetchSongsByMood, getSongs, getSongById, getSongsByMood }
+export { insertSong, fetchSongs, fetchSongsByMood, getSongs, getSongById, getSongsByMood }
