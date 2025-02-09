@@ -3,9 +3,12 @@
 # moodify v2.0 🎵
 ## Spotify API call
 
-| <img src="https://i.imgur.com/pRU3Ch0.png" height="80%"> | 
-| - |
-| <img src="https://i.imgur.com/anyXEGH.png"> |
+<table>
+  <tr>
+    <td><img src="https://i.imgur.com/n762U9V.png"></td>
+    <td><img src="https://i.imgur.com/anyXEGH.png" width="1000px"></td>
+  </tr>
+</table>
         
 
 ### Index
@@ -17,7 +20,7 @@
 * [Endpoints](#endpoints)
 * [Base de datos](#base-de-datos)
 * [Paquetes instalados](#paquetes-instalados)
-* [Manejo de errores](#manejo-de-errores)
+* [Scripts](#scripts)
 * [Estructura carpetas](#estructura-carpetas)
 
 ## Descripción
@@ -26,7 +29,7 @@ Este es un proyecto de API para la app **moodify** desarollado con ``Node.js`` q
 - **Frontend**: Diseñado con Vite para un desarrollo rápido y fluido y con Sass para estilos escalables.
 - **Spotify API**: 
 - **Base de datos**: utiliza MongoDB para un almacenamiento eficiente y escalable de datos.
-- **Tech Stack***: Node.js, Express, MongoDB, Vite, Sass, Spotify API, TypeScript.
+- **Tech Stack**: Node.js, Express, MongoDB, Vite, Sass, Spotify API, TypeScript.
 
 ## Requerimientos previos
 > [!IMPORTANT]
@@ -65,62 +68,82 @@ Este es un proyecto de API para la app **moodify** desarollado con ``Node.js`` q
   </tr>
 </table>
 
-- En la consola dentro de la ruta ``\moodify`` escribir el comando: ``node run dev`` para ejecutar sin compilar (permite ver el ``frontend`` junto al ``backend``).
-- Sino, escribir el comando: ``npm run build`` para compilar y ejecutar la API con ``npm run start``.
-
 > [!IMPORTANT]
-> En el port 3000 se encuentra el backend y en el port 5173 el frontend.
+> En el port 3000 se encuentra el backend y en el port 5173 el frontend (en este último se ejecutan ambos).
 > Si la API fue ejecutada con el comando ``npm run dev``, se puede acceder a la API en el puerto 5173 para ver el proyecto completo.
 
-> [!NOTE]
-> Más abajo dejo un cuadro con la lista de scripts disponibles.
 
 ## Endpoints
 * Canciones
-    | Método | Endpoint | Descripción |
-    |-|-|-|
-    | **GET** | ``api\v1\songs`` | Busca todas las canciones
-    | **GET** | ``api\v1\songs\id\:id`` | Busca una canción por su ID (numeros del 1 al 50)
-    | **GET** | ``api\v1\songs?mood=<mood>`` | Busca canciones por estado de ánimo. |
+  | Método | Endpoint | Descripción |
+  |-|-|-|
+  | **GET** | ``api\v2\songs`` | Busca todas las canciones. |
+  | **GET** | ``api\v2\songs\id\:id`` | Busca una canción por su ID. |
+  | **GET** | ``api\v2\songs?mood=<mood>`` | Busca canciones por estado de ánimo. |
+  | **POST** | ``api\v2\songs`` | Crea una canción |
 
 * Playlists
-    > [!WARNING]
-    > Actualmente fuera de servicio.
+  > [!WARNING]
+  > Actualmente fuera de servicio.
 
-    | Método | Endpoint | Descripción |
-    |-|-|-|
-    | **GET** | ``api\v1\playlists`` | Devuelve 50 playlists |
-    | **GET** | ``api\v1\playlists\id\:id`` | Devuelve una playlist por id [1 - 50] |
+  | Método | Endpoint | Descripción |
+  |-|-|-|
+  | **GET** | ``api\v2\playlists`` | Devuelve 50 playlists |
+  | **GET** | ``api\v2\playlists\id\:id`` | Devuelve una playlist por ID. |
 
 * Álbumes
-    | Método | Endpoint | Descripción |
-    |-|-|-|
-    | **GET** | ``api\v1\albums`` | Devuelve 50 álbumes |
-    | **GET** | ``api\v1\albums\id\:id`` | Devuelve un álbum por id [1 - 50] |
-    | **GET** | ``api\v1\albums?mood=<mood>`` | Devuelve los álbumes por el estado de ánimo elegido. |
+  | Método | Endpoint | Descripción |
+  |-|-|-|
+  | **GET** | ``api\v2\albums`` | Devuelve 50 álbumes |
+  | **GET** | ``api\v2\albums\id\:id`` | Devuelve un álbum por ID. |
+  | **GET** | ``api\v2\albums?mood=<mood>`` | Devuelve los álbumes por el estado de ánimo elegido. |
+
+* Usuarios
+  | Método | Endpoint | Descripción |
+  |-|-|-|
+  | **GET** | ``api\v2\users`` | Devuelve todos los usuarios |
+  | **GET** | ``api\v2\users\id\:id`` | Devuelve un usuario por id |
+  | **POST** | ``api\v2\users`` | Crea un usuario |
+  | **PUT** | ``api\v2\users\id\:id`` | Actualiza un usuario por id |
+  | **DELETE** | ``api\v2\users\id\:id`` | Elimina un usuario por id |
 
 > [!NOTE]
-> Estados de ánimo a elegir: [dark, sad, happy, angry, romantic, emotional, relaxed]
+> Estados de ánimo a elegir: [dark, sad, happy, angry, romantic, relaxed, badass, epic]
+
+## Base de datos
+Para almacenar los datos en la base de datos, fueron utilizados los métodos ``fetch`` de los controllers de cada una de las entidades. Estos métodos se inicializan en el archivo de inicialización de base de datos y son los encargados de obtener los datos de la API de Spotify y de guardarlos en MongoDB. El script del archivo ``init_database.ts`` se encuentra "separado" del resto del código, para poder ser ejecutado de forma independiente y única.
+
+> [!NOTE]
+> ``npm run initialize-db``
 
 ## Paquetes instalados
 | Paquete | Descripción |
 |---|---|
-| ``dotenv`` | Permite cargar variables de entorno desde un archivo ``.env``. |
-| ``express`` | Un framework minimalista y flexible de **Node.js** que facilita la creación de **APIs**. |
-| ``nodemon`` | Permite la actualización automática de la **API**. |
-| ``husky`` | Herramienta para definir hooks de Git que permiten ejecutar scripts como formateo o pruebas antes de hacer commits, mejorando la calidad del código. |
-| ``standard`` | Un **linter** y formateador que aplica reglas de estilo de código JS sin configuraciones adicionales, asegurando consistencia en el código. |
+| ``bcrypt`` | Permite encriptar contraseñas y verificar contraseñas encriptadas. |
+| ``concurrently`` | Ejecuta múltiples comandos de forma simultánea. |
 | ``cors`` | Middleware de **Express** que habilita solicitudes HTTP desde orígenes distintos, necesario para comunicar la **API Moodify** con la **API** de **Spotify**. |
+| ``dotenv`` | Permite cargar variables de entorno desde un archivo ``.env``. |
+| ``eslint`` |  Un **linter** y formateador que aplica reglas de estilo de código JS sin configuraciones adicionales, asegurando consistencia. |
+| ``express`` | Un framework minimalista y flexible de **Node.js** que facilita la creación de **APIs**. |
+| ``husky`` | Herramienta para definir hooks de Git que permiten ejecutar scripts como formateo o pruebas antes de hacer commits, mejorando la calidad del código. |
+| ``mongoose`` | Una biblioteca de **MongoDB** que facilita la interacción con la base de datos, permitiendo definir esquemas, modelos y consultas. |
+| ``sass`` | Una biblioteca de **CSS** que permite escribir **CSS** de forma más eficiente y estructurada, permitiendo la creación de estilos complejos y reutilizables. |
+| ``standard`` | Un **linter** y formateador que aplica reglas de estilo de código JS sin configuraciones adicionales, asegurando consistencia en el código. |
 | ``spotify-api-call`` | Un paquete para hacer **llamadas HTTP** más simples a la **API** de **Spotify**, proporcionando un método estructurado para interactuar con sus **endpoints**. |	
 | ``spotify-web-api-node`` | Cliente oficial para **Node.js** que simplifica la autenticación y las solicitudes a la **API** de **Spotify**, permitiendo acceso a datos como canciones, artistas y playlists. |
+| ``tsnode`` | Un compilador que permite ejecutar **TypeScript** en **Node.js** sin la necesidad de compilar previamente el código. |
+| ``vite`` | Un **bundler** y servidor de desarrollo que permite crear aplicaciones web más eficientes. |
     
 
-## Manejo de errores
+## Scripts
 1. Paquetes de manejos de errores: ``husky`` y ``standard``
-2. Manejo de errores:
-    * ``node app``: inicializa la API
-    * ``npx standard``: muestra los errores en el código
-    * ``npx standard --fix``: corrige estos errores mostrados
+2. Scripts:
+    * ``npm run initialize-db``: inicializa el código de la base de datos. (Solo se ejecuta una vez).
+    * ``npm run dev``: ejecuta la API en modo desarrollo.
+    * ``npm run build``: transpila y compila la API.
+    * ``node app``: inicializa la API.
+    * ``npx standard``: muestra los errores en el código.
+    * ``npx standard --fix``: corrige estos errores mostrados.
 
 ## Estructura carpetas
 * ``/moodify`` → carpeta principal
@@ -137,21 +160,35 @@ Este es un proyecto de API para la app **moodify** desarollado con ``Node.js`` q
 > - │   ├── albums.ts
 > - │   ├── playlists.ts
 > - │   ├── songs.ts
+> - │   ├── users.ts
+> - ├── DAO/
+> - │   ├── albums_dao.ts
+> - │   ├── playlists_dao.ts
+> - │   ├── songs_dao.ts
+> - │   ├── users_dao.ts
 > - ├── database/
 > - │   ├── conex.ts
-> - │   ├── fetch_items.ts
 > - │   ├── init_database.ts
+> - ├── entities/
+> - │   ├── album.ts
+> - │   ├── playlist.ts
+> - │   ├── song.ts
+> - │   ├── user.ts
 > - ├── models/
-> - │   ├── albums_scheme.ts
+> - │   ├── album_model.ts
 > - │   ├── counter.ts
-> - │   ├── playlists_scheme.ts
+> - │   ├── playlist_model.ts
 > - │   ├── server.ts
-> - │   ├── songs_scheme.ts
+> - │   ├── song_model.ts
 > - ├── public/
-> - │   ├── index.html
-> - │   ├── main.css
+> - │   ├── imgs/
+> - │   ├── main.scss
 > - │   ├── main.ts
+> - │   ├── index.html
+> - │   ├── songs.html
 > - ├─ service/
 > - │   ├── spotify_service.ts
 > - ├── app.ts
+> - ├── package.json
 > - ├── tsconfig.json
+> - ├── vite.config.ts
